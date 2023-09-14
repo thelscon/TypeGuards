@@ -158,3 +158,13 @@ function typeOperations(value) {
         value *= 5;
     }
 }
+// Створіть захисник типу, який перевірятиме, чи є передане значення функцією. 
+// Потім напишіть функцію, яка використовує цей гард для звуження типу змінної і викликає передану функцію, якщо вона існує.
+function isFunction(value) {
+    return typeof value === 'function';
+}
+function runFunction(value) {
+    if (isFunction(value)) {
+        value();
+    }
+}
