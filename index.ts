@@ -149,3 +149,18 @@ class Turtle extends Animal {
         return true ;
     }
 }
+
+
+// У вас є змінна, яка може бути одного з декількох типів (наприклад, рядок або число). 
+// Напишіть функцію, яка приймає цю змінну і виконує довільні операції, специфічні для кожного з типів.
+function typeOperations ( value : number | bigint | string ) : void {
+    if ( typeof value === 'string' ) {
+        value = `'${value}' - ${value.length} char(s)`;
+    }
+    else if ( typeof value === 'bigint' ) {
+        value += 10n ;
+    }
+    else {
+        value *= 5 ;
+    }
+}

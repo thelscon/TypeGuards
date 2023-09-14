@@ -145,3 +145,16 @@ var Turtle = /** @class */ (function (_super) {
     };
     return Turtle;
 }(Animal));
+// У вас є змінна, яка може бути одного з декількох типів (наприклад, рядок або число). 
+// Напишіть функцію, яка приймає цю змінну і виконує довільні операції, специфічні для кожного з типів.
+function typeOperations(value) {
+    if (typeof value === 'string') {
+        value = "'".concat(value, "' - ").concat(value.length, " char(s)");
+    }
+    else if (typeof value === 'bigint') {
+        value += 10n;
+    }
+    else {
+        value *= 5;
+    }
+}
