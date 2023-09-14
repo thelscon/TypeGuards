@@ -30,123 +30,66 @@ function isStringBankAccountInObject( obj : Obj ) : string | void {
 
 // Створіть кілька захисників типу, кожен з яких перевіряє певний аспект об'єкта (наприклад, наявність певної властивості або її тип). 
 // Потім напишіть функцію, яка використовує цих захисників у комбінації для звуження типу об'єкта до більш конкретного типу.
-function runObject( obj : Animal ) : boolean {
-    return 'run' in obj ;
-}
-function barkObject( obj : Animal ) : boolean {
-    return 'bark' in obj ;
-}
-function swimsObject( obj : Animal ) : boolean {
-    return 'swims' in obj ;
-}
-function meowObject( obj : Animal ) : boolean {
-    return 'meow' in obj ;
-}
-function crawlingObject( obj : Animal ) : boolean {
-    return 'crawling' in obj ;
-}
-function hasNoColor( obj : Animal ) : boolean {
-    return !obj.color ;
-}
-function catchesMice( obj : Animal ) : boolean {
-    return ( obj instanceof Cat || obj instanceof Dog || obj instanceof Turtle ) &&  obj.miceCaught === true ;
-}
-function knowsHowToGuard( obj : Animal ) : boolean {
-    return 'guardsTheHouse' in obj && obj.guardsTheHouse === true ;
+enum Manufacturer {
+    AMD ,
+    Intel ,
+    Qualcomm
 }
 
-function isDog( obj : Animal ) : obj is Dog {
-    return runObject( obj ) && swimsObject( obj ) && barkObject( obj ) && !catchesMice( obj ) ;
-}
-function isCat( obj : Animal ) : obj is Cat {
-    return runObject( obj ) && meowObject( obj ) && catchesMice( obj ) ;
-}
-function isFish( obj : Animal ) : obj is Fish {
-    return swimsObject( obj ) && hasNoColor( obj ) ;
-}
-function isTurtle( obj : Animal ) : obj is Turtle {
-    return swimsObject( obj ) && !catchesMice( obj ) && crawlingObject( obj ) ;
-}
+class AMDProcessor {
+    name = 'Ryzen' ;
+    manufacturer = Manufacturer.AMD ;
+    core = 16 ;
 
-enum Color {
-    white = 'White Color' ,
-    black = 'Black Color' ,
-    brown = 'Brown Color' ,
-    green = 'Green Color'
-}
-class Animal {
-    name : string ;
-    age : number ;
-    color ?: Color ;
-
-    constructor( name: string , age : number , color ?: Color ){
-        this.name = name ;
-        this.age = age ;
-        if ( color ) {
-            this.color = color ;
-        }
-    }
-}
-
-class Cat extends Animal {
-    guardsTheHouse : boolean = false ;
-    miceCaught : boolean = true ;
-    
-    constructor( name: string , age : number , color : Color ){
-        super( name , age , color ) ;
-    }
-
-    meow() : boolean {
+    overclocking () : boolean {
         return true ;
     }
+}
+class IntelProcessor  {
+    name = 'Core' ;
+    manufacturer = Manufacturer.Intel ;
+    core = 24 ;
+
+    boost(): boolean {
+        return true ;
+    }
+}
+class ARMProcessor{
+    name = 'Snapdragon' ;
+    manufacturer = Manufacturer.Qualcomm ;
+    core = 24 ;
+
     run() : boolean {
-        return true ;
+        return true;
     }
 }
 
-class Dog extends Animal {
-    guardsTheHouse : boolean = true ;
-    miceCaught : boolean = false ;
-    
-    constructor( name: string , age : number , color : Color , guardsTheHouse : boolean ){
-        super( name , age , color ) ;
-
-        this.guardsTheHouse = guardsTheHouse ;
-    }
-
-    bark() : boolean {
-        return true ;
-    }
-    run() : boolean {
-        return true ;
-    }
-    swims() : boolean {
-        return true ;
-    }
+function AMDManufacturer ( obj : AMDProcessor | IntelProcessor | ARMProcessor ) : boolean {
+    return obj.manufacturer === Manufacturer.AMD ;
+}
+function IntelManufacturer ( obj : AMDProcessor | IntelProcessor | ARMProcessor ) : boolean {
+    return obj.manufacturer === Manufacturer.Intel ;
+} 
+function nameProcessorRyzen ( name : string ) : boolean {
+    return name === 'Ryzen' ;
+}
+function nameProcessorIntel ( name : string ) : boolean {
+    return name === 'Core' ;
 }
 
-class Fish extends Animal {
-    constructor( name: string , age : number ){
-        super( name , age ) ;
-    }
-
-    swims() : boolean {
-        return true ;
-    }
+function isAMD ( obj : AMDProcessor | IntelProcessor | ARMProcessor ) : obj is AMDProcessor {
+    return AMDManufacturer ( obj ) && nameProcessorRyzen ( obj.name ) && 'overclocking' in obj ;
+}
+function isIntel ( obj : AMDProcessor | IntelProcessor | ARMProcessor ) : obj is IntelProcessor {
+    return IntelManufacturer ( obj ) && nameProcessorIntel ( obj.name ) && 'boost' in obj ;
 }
 
-class Turtle extends Animal {    
-    miceCaught : boolean = false ;
-
-    constructor( name: string , age : number , color : Color ){
-        super( name , age , color ) ;
+function runPerformance ( obj : AMDProcessor | IntelProcessor ) : void {
+    if ( isIntel ( obj ) ) {
+        obj.boost () ;
     }
-
-    crawling() : boolean {
-        return true ;
-    }
-    swims() : boolean {
-        return true ;
+    if ( isAMD ( obj ) ) {
+        obj.overclocking () ;
     }
 }
 
@@ -180,3 +123,74 @@ function runFunction ( value : Function | unknown ) : void {
     }
 }
 
+//Створіть класи з ієрархією успадкування і потім напишіть функцію, яка використовує захисник типу для звуження типу об'єктів, що базуються на цій ієрархії.
+
+enum TypesOfAnimals {
+    Dog = 'Dog' , 
+    Cat = 'Cat' ,
+    Bird = 'Bird'
+}
+enum AnimalColor {
+    White = 'White' ,
+    Black = 'Black' ,
+    Gray = 'Gray' ,
+    Yellow = "Yellow"
+}
+class Animal {
+    name : string ;
+    color : AnimalColor ;
+
+    constructor ( name : string , color : AnimalColor ) {
+        this.name = name ;
+        this.color = color ;
+    }
+}
+
+class Cat extends Animal {
+    typeOfAnimal : TypesOfAnimals = TypesOfAnimals.Cat ;
+
+    constructor ( name : string , color : AnimalColor ) {
+        super ( name , color ) ;
+    }
+
+    meow() : boolean {
+        return true ;
+    }
+}
+class Dog extends Animal {
+    typeOfAnimal : TypesOfAnimals = TypesOfAnimals.Dog  ;
+
+    constructor (  name : string , color : AnimalColor )  {
+        super ( name , color ) ;
+    }
+
+    bark() : boolean {
+        return true ;
+    }
+}
+class Bird extends Animal {
+    typeOfAnimal : TypesOfAnimals = TypesOfAnimals.Bird
+
+    constructor (  name : string , color : AnimalColor )  {
+        super ( name , color ) ;
+    }
+
+    fly () : boolean {
+        return true ;
+    }
+}
+
+function isCat ( obj : Animal ) : obj is Cat {
+    return 'typeOfAnimal' in obj && obj.typeOfAnimal === TypesOfAnimals.Cat  ;         
+}
+function isDog ( obj : Animal ) : obj is Dog {
+    return 'typeOfAnimal' in obj && obj.typeOfAnimal === TypesOfAnimals.Dog  ;         
+}
+function isBird ( obj : Animal ) : obj is Bird {
+    return 'typeOfAnimal' in obj && obj.typeOfAnimal === TypesOfAnimals.Bird  ;         
+}
+function whatAnimal ( value : Animal )  {
+    if ( isCat( value ) ) {}
+    if ( isDog( value ) ) {}
+    if ( isBird( value ) ) {}
+}

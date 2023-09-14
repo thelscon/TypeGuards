@@ -31,120 +31,71 @@ function isStringBankAccountInObject(obj) {
 }
 // Створіть кілька захисників типу, кожен з яких перевіряє певний аспект об'єкта (наприклад, наявність певної властивості або її тип). 
 // Потім напишіть функцію, яка використовує цих захисників у комбінації для звуження типу об'єкта до більш конкретного типу.
-function runObject(obj) {
-    return 'run' in obj;
-}
-function barkObject(obj) {
-    return 'bark' in obj;
-}
-function swimsObject(obj) {
-    return 'swims' in obj;
-}
-function meowObject(obj) {
-    return 'meow' in obj;
-}
-function crawlingObject(obj) {
-    return 'crawling' in obj;
-}
-function hasNoColor(obj) {
-    return !obj.color;
-}
-function catchesMice(obj) {
-    return (obj instanceof Cat || obj instanceof Dog || obj instanceof Turtle) && obj.miceCaught === true;
-}
-function knowsHowToGuard(obj) {
-    return 'guardsTheHouse' in obj && obj.guardsTheHouse === true;
-}
-function isDog(obj) {
-    return runObject(obj) && swimsObject(obj) && barkObject(obj) && !catchesMice(obj);
-}
-function isCat(obj) {
-    return runObject(obj) && meowObject(obj) && catchesMice(obj);
-}
-function isFish(obj) {
-    return swimsObject(obj) && hasNoColor(obj);
-}
-function isTurtle(obj) {
-    return swimsObject(obj) && !catchesMice(obj) && crawlingObject(obj);
-}
-var Color;
-(function (Color) {
-    Color["white"] = "White Color";
-    Color["black"] = "Black Color";
-    Color["brown"] = "Brown Color";
-    Color["green"] = "Green Color";
-})(Color || (Color = {}));
-var Animal = /** @class */ (function () {
-    function Animal(name, age, color) {
-        this.name = name;
-        this.age = age;
-        if (color) {
-            this.color = color;
-        }
+var Manufacturer;
+(function (Manufacturer) {
+    Manufacturer[Manufacturer["AMD"] = 0] = "AMD";
+    Manufacturer[Manufacturer["Intel"] = 1] = "Intel";
+    Manufacturer[Manufacturer["Qualcomm"] = 2] = "Qualcomm";
+})(Manufacturer || (Manufacturer = {}));
+var AMDProcessor = /** @class */ (function () {
+    function AMDProcessor() {
+        this.name = 'Ryzen';
+        this.manufacturer = Manufacturer.AMD;
+        this.core = 16;
     }
-    return Animal;
+    AMDProcessor.prototype.overclocking = function () {
+        return true;
+    };
+    return AMDProcessor;
 }());
-var Cat = /** @class */ (function (_super) {
-    __extends(Cat, _super);
-    function Cat(name, age, color) {
-        var _this = _super.call(this, name, age, color) || this;
-        _this.guardsTheHouse = false;
-        _this.miceCaught = true;
-        return _this;
+var IntelProcessor = /** @class */ (function () {
+    function IntelProcessor() {
+        this.name = 'Core';
+        this.manufacturer = Manufacturer.Intel;
+        this.core = 24;
     }
-    Cat.prototype.meow = function () {
+    IntelProcessor.prototype.boost = function () {
         return true;
     };
-    Cat.prototype.run = function () {
-        return true;
-    };
-    return Cat;
-}(Animal));
-var Dog = /** @class */ (function (_super) {
-    __extends(Dog, _super);
-    function Dog(name, age, color, guardsTheHouse) {
-        var _this = _super.call(this, name, age, color) || this;
-        _this.guardsTheHouse = true;
-        _this.miceCaught = false;
-        _this.guardsTheHouse = guardsTheHouse;
-        return _this;
+    return IntelProcessor;
+}());
+var ARMProcessor = /** @class */ (function () {
+    function ARMProcessor() {
+        this.name = 'Snapdragon';
+        this.manufacturer = Manufacturer.Qualcomm;
+        this.core = 24;
     }
-    Dog.prototype.bark = function () {
+    ARMProcessor.prototype.run = function () {
         return true;
     };
-    Dog.prototype.run = function () {
-        return true;
-    };
-    Dog.prototype.swims = function () {
-        return true;
-    };
-    return Dog;
-}(Animal));
-var Fish = /** @class */ (function (_super) {
-    __extends(Fish, _super);
-    function Fish(name, age) {
-        return _super.call(this, name, age) || this;
+    return ARMProcessor;
+}());
+function AMDManufacturer(obj) {
+    return obj.manufacturer === Manufacturer.AMD;
+}
+function IntelManufacturer(obj) {
+    return obj.manufacturer === Manufacturer.Intel;
+}
+function nameProcessorRyzen(name) {
+    return name === 'Ryzen';
+}
+function nameProcessorIntel(name) {
+    return name === 'Core';
+}
+function isAMD(obj) {
+    return AMDManufacturer(obj) && nameProcessorRyzen(obj.name) && 'overclocking' in obj;
+}
+function isIntel(obj) {
+    return IntelManufacturer(obj) && nameProcessorIntel(obj.name) && 'boost' in obj;
+}
+function runPerformance(obj) {
+    if (isIntel(obj)) {
+        obj.boost();
     }
-    Fish.prototype.swims = function () {
-        return true;
-    };
-    return Fish;
-}(Animal));
-var Turtle = /** @class */ (function (_super) {
-    __extends(Turtle, _super);
-    function Turtle(name, age, color) {
-        var _this = _super.call(this, name, age, color) || this;
-        _this.miceCaught = false;
-        return _this;
+    if (isAMD(obj)) {
+        obj.overclocking();
     }
-    Turtle.prototype.crawling = function () {
-        return true;
-    };
-    Turtle.prototype.swims = function () {
-        return true;
-    };
-    return Turtle;
-}(Animal));
+}
 // У вас є змінна, яка може бути одного з декількох типів (наприклад, рядок або число). 
 // Напишіть функцію, яка приймає цю змінну і виконує довільні операції, специфічні для кожного з типів.
 function typeOperations(value) {
@@ -167,4 +118,75 @@ function runFunction(value) {
     if (isFunction(value)) {
         value();
     }
+}
+//Створіть класи з ієрархією успадкування і потім напишіть функцію, яка використовує захисник типу для звуження типу об'єктів, що базуються на цій ієрархії.
+var TypesOfAnimals;
+(function (TypesOfAnimals) {
+    TypesOfAnimals["Dog"] = "Dog";
+    TypesOfAnimals["Cat"] = "Cat";
+    TypesOfAnimals["Bird"] = "Bird";
+})(TypesOfAnimals || (TypesOfAnimals = {}));
+var AnimalColor;
+(function (AnimalColor) {
+    AnimalColor["White"] = "White";
+    AnimalColor["Black"] = "Black";
+    AnimalColor["Gray"] = "Gray";
+    AnimalColor["Yellow"] = "Yellow";
+})(AnimalColor || (AnimalColor = {}));
+var Animal = /** @class */ (function () {
+    function Animal(name, color) {
+        this.name = name;
+        this.color = color;
+    }
+    return Animal;
+}());
+var Cat = /** @class */ (function (_super) {
+    __extends(Cat, _super);
+    function Cat(name, color) {
+        var _this = _super.call(this, name, color) || this;
+        _this.typeOfAnimal = TypesOfAnimals.Cat;
+        return _this;
+    }
+    Cat.prototype.meow = function () {
+        return true;
+    };
+    return Cat;
+}(Animal));
+var Dog = /** @class */ (function (_super) {
+    __extends(Dog, _super);
+    function Dog(name, color) {
+        var _this = _super.call(this, name, color) || this;
+        _this.typeOfAnimal = TypesOfAnimals.Dog;
+        return _this;
+    }
+    Dog.prototype.bark = function () {
+        return true;
+    };
+    return Dog;
+}(Animal));
+var Bird = /** @class */ (function (_super) {
+    __extends(Bird, _super);
+    function Bird(name, color) {
+        var _this = _super.call(this, name, color) || this;
+        _this.typeOfAnimal = TypesOfAnimals.Bird;
+        return _this;
+    }
+    Bird.prototype.fly = function () {
+        return true;
+    };
+    return Bird;
+}(Animal));
+function isCat(obj) {
+    return 'typeOfAnimal' in obj && obj.typeOfAnimal === TypesOfAnimals.Cat;
+}
+function isDog(obj) {
+    return 'typeOfAnimal' in obj && obj.typeOfAnimal === TypesOfAnimals.Dog;
+}
+function isBird(obj) {
+    return 'typeOfAnimal' in obj && obj.typeOfAnimal === TypesOfAnimals.Bird;
+}
+function whatAnimal(value) {
+    if (isCat(value)) { }
+    if (isDog(value)) { }
+    if (isBird(value)) { }
 }
