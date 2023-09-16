@@ -22,11 +22,20 @@ function isString(value) {
 // Напишіть функцію, яка приймає цей масив і фільтрує його так, щоб у підсумку в ньому залишилися тільки рядки. 
 // Використовуйте захисника типу для цього завдання.
 function isStringsInArray(value) {
-    return value.filter(function (value) { return isString(value); });
+    return value.filter(isString);
 }
-function isStringBankAccountInObject(obj) {
-    if (obj.bankAccount && typeof obj.bankAccount === 'string') {
-        return obj.bankAccount;
+// У вас є об'єкт, який може містити довільні властивості. 
+// Напишіть функцію, яка приймає цей об'єкт і повертає значення однієї з властивостей, якщо воно існує і має певний тип.
+var propertyObject;
+(function (propertyObject) {
+    propertyObject["name"] = "name";
+    propertyObject["id"] = "id";
+    propertyObject["bankAccount"] = "bankAccount";
+    propertyObject["availabilityOfACar"] = "availabilityOfACar";
+})(propertyObject || (propertyObject = {}));
+function isStringBankAccountInObject(obj, property) {
+    if (property in obj && typeof obj[property] === 'string') {
+        return obj[property];
     }
 }
 // Створіть кілька захисників типу, кожен з яких перевіряє певний аспект об'єкта (наприклад, наявність певної властивості або її тип). 
@@ -70,12 +79,6 @@ var ARMProcessor = /** @class */ (function () {
     };
     return ARMProcessor;
 }());
-function AMDManufacturer(obj) {
-    return obj.manufacturer === Manufacturer.AMD;
-}
-function IntelManufacturer(obj) {
-    return obj.manufacturer === Manufacturer.Intel;
-}
 function nameProcessorRyzen(name) {
     return name === 'Ryzen';
 }
@@ -83,10 +86,10 @@ function nameProcessorIntel(name) {
     return name === 'Core';
 }
 function isAMD(obj) {
-    return AMDManufacturer(obj) && nameProcessorRyzen(obj.name) && 'overclocking' in obj;
+    return nameProcessorRyzen(obj.name) && 'overclocking' in obj;
 }
 function isIntel(obj) {
-    return IntelManufacturer(obj) && nameProcessorIntel(obj.name) && 'boost' in obj;
+    return nameProcessorIntel(obj.name) && 'boost' in obj;
 }
 function runPerformance(obj) {
     if (isIntel(obj)) {

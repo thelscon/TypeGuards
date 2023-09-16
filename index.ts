@@ -1,29 +1,35 @@
 // Напишіть функцію isString, яка перевірятиме, чи є передане значення рядком. 
 // Потім використовуйте її для звуження типу змінної.
-function isString( value : any ) : value is string {
+function isString( value : unknown ) : value is string {
     return typeof value === 'string'
 }
-
 
 // У вас є масив з елементами різних типів. 
 // Напишіть функцію, яка приймає цей масив і фільтрує його так, щоб у підсумку в ньому залишилися тільки рядки. 
 // Використовуйте захисника типу для цього завдання.
-function isStringsInArray( value : any[] ) : string[]  {
-    return value.filter( ( value : any ) => isString( value ) ) ;
+function isStringsInArray( value : unknown[] ) : string[]  {
+    return value.filter( isString ) ;
 }
 
 
 // У вас є об'єкт, який може містити довільні властивості. 
 // Напишіть функцію, яка приймає цей об'єкт і повертає значення однієї з властивостей, якщо воно існує і має певний тип.
-type Obj = {
-    nickName : string ;
-    id : number ;
-    bankAccount ?: string | number ;
-    availabilityOfACar : boolean ;
+enum propertyObject {
+    name = 'name' ,
+    id = 'id' ,
+    bankAccount = 'bankAccount' ,
+    availabilityOfACar = 'availabilityOfACar'
 }
-function isStringBankAccountInObject( obj : Obj ) : string | void {
-    if ( obj.bankAccount && typeof obj.bankAccount === 'string' ) {
-        return obj.bankAccount ;
+type Obj = {
+    [propertyObject.name] : string ;
+    [propertyObject.id] : number ;
+    [propertyObject.bankAccount] ?: string | number ;
+    [propertyObject.availabilityOfACar] : boolean ;
+}
+
+function isStringBankAccountInObject( obj : Obj , property : propertyObject ) : string | number | boolean | void {
+    if ( property in obj && typeof obj[property] === 'string' ) {
+        return obj[property] ;
     }
 }
 
@@ -64,12 +70,6 @@ class ARMProcessor{
     }
 }
 
-function AMDManufacturer ( obj : AMDProcessor | IntelProcessor | ARMProcessor ) : boolean {
-    return obj.manufacturer === Manufacturer.AMD ;
-}
-function IntelManufacturer ( obj : AMDProcessor | IntelProcessor | ARMProcessor ) : boolean {
-    return obj.manufacturer === Manufacturer.Intel ;
-} 
 function nameProcessorRyzen ( name : string ) : boolean {
     return name === 'Ryzen' ;
 }
@@ -78,10 +78,10 @@ function nameProcessorIntel ( name : string ) : boolean {
 }
 
 function isAMD ( obj : AMDProcessor | IntelProcessor | ARMProcessor ) : obj is AMDProcessor {
-    return AMDManufacturer ( obj ) && nameProcessorRyzen ( obj.name ) && 'overclocking' in obj ;
+    return nameProcessorRyzen ( obj.name ) && 'overclocking' in obj ;
 }
 function isIntel ( obj : AMDProcessor | IntelProcessor | ARMProcessor ) : obj is IntelProcessor {
-    return IntelManufacturer ( obj ) && nameProcessorIntel ( obj.name ) && 'boost' in obj ;
+    return nameProcessorIntel ( obj.name ) && 'boost' in obj ;
 }
 
 function runPerformance ( obj : AMDProcessor | IntelProcessor ) : void {
@@ -113,7 +113,7 @@ function typeOperations ( value : number | bigint | string ) : void {
 // Потім напишіть функцію, яка використовує цей гард для звуження типу змінної і викликає передану функцію, якщо вона існує.
 
 
-function isFunction ( value : any ) : value is Function {
+function isFunction ( value : any ) : value is () => void {
     return typeof value === 'function'
 }
 
