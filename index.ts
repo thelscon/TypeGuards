@@ -14,7 +14,7 @@ function isStringsInArray( value : unknown[] ) : string[]  {
 
 // У вас є об'єкт, який може містити довільні властивості. 
 // Напишіть функцію, яка приймає цей об'єкт і повертає значення однієї з властивостей, якщо воно існує і має певний тип.
-enum propertyObject {
+const enum propertyObject {
     name = 'name' ,
     id = 'id' ,
     bankAccount = 'bankAccount' ,
@@ -36,7 +36,7 @@ function isStringBankAccountInObject( obj : Obj , property : propertyObject ) : 
 
 // Створіть кілька захисників типу, кожен з яких перевіряє певний аспект об'єкта (наприклад, наявність певної властивості або її тип). 
 // Потім напишіть функцію, яка використовує цих захисників у комбінації для звуження типу об'єкта до більш конкретного типу.
-enum Manufacturer {
+const enum Manufacturer {
     AMD ,
     Intel ,
     Qualcomm
@@ -125,12 +125,12 @@ function runFunction ( value : Function | unknown ) : void {
 
 //Створіть класи з ієрархією успадкування і потім напишіть функцію, яка використовує захисник типу для звуження типу об'єктів, що базуються на цій ієрархії.
 
-enum TypesOfAnimals {
+const enum TypesOfAnimals {
     Dog = 'Dog' , 
     Cat = 'Cat' ,
     Bird = 'Bird'
 }
-enum AnimalColor {
+const enum AnimalColor {
     White = 'White' ,
     Black = 'Black' ,
     Gray = 'Gray' ,

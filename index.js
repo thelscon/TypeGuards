@@ -24,32 +24,15 @@ function isString(value) {
 function isStringsInArray(value) {
     return value.filter(isString);
 }
-// У вас є об'єкт, який може містити довільні властивості. 
-// Напишіть функцію, яка приймає цей об'єкт і повертає значення однієї з властивостей, якщо воно існує і має певний тип.
-var propertyObject;
-(function (propertyObject) {
-    propertyObject["name"] = "name";
-    propertyObject["id"] = "id";
-    propertyObject["bankAccount"] = "bankAccount";
-    propertyObject["availabilityOfACar"] = "availabilityOfACar";
-})(propertyObject || (propertyObject = {}));
 function isStringBankAccountInObject(obj, property) {
     if (property in obj && typeof obj[property] === 'string') {
         return obj[property];
     }
 }
-// Створіть кілька захисників типу, кожен з яких перевіряє певний аспект об'єкта (наприклад, наявність певної властивості або її тип). 
-// Потім напишіть функцію, яка використовує цих захисників у комбінації для звуження типу об'єкта до більш конкретного типу.
-var Manufacturer;
-(function (Manufacturer) {
-    Manufacturer[Manufacturer["AMD"] = 0] = "AMD";
-    Manufacturer[Manufacturer["Intel"] = 1] = "Intel";
-    Manufacturer[Manufacturer["Qualcomm"] = 2] = "Qualcomm";
-})(Manufacturer || (Manufacturer = {}));
 var AMDProcessor = /** @class */ (function () {
     function AMDProcessor() {
         this.name = 'Ryzen';
-        this.manufacturer = Manufacturer.AMD;
+        this.manufacturer = 0 /* Manufacturer.AMD */;
         this.core = 16;
     }
     AMDProcessor.prototype.overclocking = function () {
@@ -60,7 +43,7 @@ var AMDProcessor = /** @class */ (function () {
 var IntelProcessor = /** @class */ (function () {
     function IntelProcessor() {
         this.name = 'Core';
-        this.manufacturer = Manufacturer.Intel;
+        this.manufacturer = 1 /* Manufacturer.Intel */;
         this.core = 24;
     }
     IntelProcessor.prototype.boost = function () {
@@ -71,7 +54,7 @@ var IntelProcessor = /** @class */ (function () {
 var ARMProcessor = /** @class */ (function () {
     function ARMProcessor() {
         this.name = 'Snapdragon';
-        this.manufacturer = Manufacturer.Qualcomm;
+        this.manufacturer = 2 /* Manufacturer.Qualcomm */;
         this.core = 24;
     }
     ARMProcessor.prototype.run = function () {
@@ -122,20 +105,6 @@ function runFunction(value) {
         value();
     }
 }
-//Створіть класи з ієрархією успадкування і потім напишіть функцію, яка використовує захисник типу для звуження типу об'єктів, що базуються на цій ієрархії.
-var TypesOfAnimals;
-(function (TypesOfAnimals) {
-    TypesOfAnimals["Dog"] = "Dog";
-    TypesOfAnimals["Cat"] = "Cat";
-    TypesOfAnimals["Bird"] = "Bird";
-})(TypesOfAnimals || (TypesOfAnimals = {}));
-var AnimalColor;
-(function (AnimalColor) {
-    AnimalColor["White"] = "White";
-    AnimalColor["Black"] = "Black";
-    AnimalColor["Gray"] = "Gray";
-    AnimalColor["Yellow"] = "Yellow";
-})(AnimalColor || (AnimalColor = {}));
 var Animal = /** @class */ (function () {
     function Animal(name, color) {
         this.name = name;
@@ -147,7 +116,7 @@ var Cat = /** @class */ (function (_super) {
     __extends(Cat, _super);
     function Cat(name, color) {
         var _this = _super.call(this, name, color) || this;
-        _this.typeOfAnimal = TypesOfAnimals.Cat;
+        _this.typeOfAnimal = "Cat" /* TypesOfAnimals.Cat */;
         return _this;
     }
     Cat.prototype.meow = function () {
@@ -159,7 +128,7 @@ var Dog = /** @class */ (function (_super) {
     __extends(Dog, _super);
     function Dog(name, color) {
         var _this = _super.call(this, name, color) || this;
-        _this.typeOfAnimal = TypesOfAnimals.Dog;
+        _this.typeOfAnimal = "Dog" /* TypesOfAnimals.Dog */;
         return _this;
     }
     Dog.prototype.bark = function () {
@@ -171,7 +140,7 @@ var Bird = /** @class */ (function (_super) {
     __extends(Bird, _super);
     function Bird(name, color) {
         var _this = _super.call(this, name, color) || this;
-        _this.typeOfAnimal = TypesOfAnimals.Bird;
+        _this.typeOfAnimal = "Bird" /* TypesOfAnimals.Bird */;
         return _this;
     }
     Bird.prototype.fly = function () {
@@ -180,13 +149,13 @@ var Bird = /** @class */ (function (_super) {
     return Bird;
 }(Animal));
 function isCat(obj) {
-    return 'typeOfAnimal' in obj && obj.typeOfAnimal === TypesOfAnimals.Cat;
+    return 'typeOfAnimal' in obj && obj.typeOfAnimal === "Cat" /* TypesOfAnimals.Cat */;
 }
 function isDog(obj) {
-    return 'typeOfAnimal' in obj && obj.typeOfAnimal === TypesOfAnimals.Dog;
+    return 'typeOfAnimal' in obj && obj.typeOfAnimal === "Dog" /* TypesOfAnimals.Dog */;
 }
 function isBird(obj) {
-    return 'typeOfAnimal' in obj && obj.typeOfAnimal === TypesOfAnimals.Bird;
+    return 'typeOfAnimal' in obj && obj.typeOfAnimal === "Bird" /* TypesOfAnimals.Bird */;
 }
 function whatAnimal(value) {
     if (isCat(value)) { }
